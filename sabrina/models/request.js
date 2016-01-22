@@ -7,4 +7,10 @@ var requestSchema = new mongoose.Schema({
   claimedBy: {type: String, default: 'null'}
 });
 
+var Request = mongoose.model('Request', requestSchema);
+
+Request.schema.path('giftCard').validate(function(value) {
+  return /QFC|Amazon|Petco|Best Buy/i.test(value);
+}, 'Unavailable gift card');
+
 module.exports = exports = mongoose.model('Request', requestSchema);

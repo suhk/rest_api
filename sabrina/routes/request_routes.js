@@ -2,6 +2,7 @@ const express = require('express');
 const jsonParser = require('body-parser').json();
 const Request = require(__dirname + '/../models/request');
 const handleDBError = require(__dirname + '/../lib/handle_db_error');
+const handleUnavailError = require(__dirname + '/../lib/handle_unavailable');
 
 var requestsRouter = module.exports = exports = express.Router();
 
@@ -22,7 +23,7 @@ requestsRouter.get('/requestsUnclaimed', (req, res) => {
 requestsRouter.post('/requests', jsonParser, (req, res) => {
   var newRequest = new Request(req.body);
   newRequest.save((err, data) => {
-    if(err) return handleDBError(err, res);
+    if(err) return handleUnavailError(err, res);
     res.status(200).json(data);
   });
 });
