@@ -17,6 +17,13 @@ donorRouter.get('/donors', (req, res) => {
   });
 });
 
+donorRouter.get('/totalDonors', (req, res) => {
+  Donor.count({}, (err, data) => {
+    if (err) return handleDBError(err, res);
+    res.status(200).json(data);
+  });
+});
+
 donorRouter.post('/donors', jsonParser, (req, res) => {
   var newDonor = new Donor(req.body);
   newDonor.save((err, data) => {

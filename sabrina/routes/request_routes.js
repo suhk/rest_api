@@ -20,6 +20,13 @@ requestsRouter.get('/requestsUnclaimed', (req, res) => {
   });
 });
 
+requestsRouter.get('/totalUnclaimed', (req, res) => {
+  Request.count({claimedBy: {$in: ['null']}}, (err, data) => {
+    if (err) return handleDBError(err, res);
+    res.status(200).json(data);
+  });
+});
+
 requestsRouter.post('/requests', jsonParser, (req, res) => {
   var newRequest = new Request(req.body);
   newRequest.save((err, data) => {
