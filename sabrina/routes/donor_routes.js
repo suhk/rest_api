@@ -5,6 +5,11 @@ const handleDBError = require(__dirname + '/../lib/handle_db_error');
 
 var donorRouter = module.exports = exports = express.Router();
 
+donorRouter.use(function logIn(req, res, next) {
+  console.log('Donor login at: ' + (new Date()));
+  next();
+});
+
 donorRouter.get('/donors', (req, res) => {
   Donor.find({}, (err, data) => {
     if (err) return handleDBError(err, res);

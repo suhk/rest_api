@@ -37,6 +37,13 @@ requestsRouter.put('/requests/:id', jsonParser, (req, res) => {
   });
 });
 
+requestsRouter.put('/requests/:id/:claimedByID', jsonParser, (req, res) => {
+  Request.update({_id: req.params.id}, {$set: {claimedBy: req.params.claimedByID}}, (err, data) => {
+    if (err) return handleDBError(err, res);
+    res.status(200).json({msg: 'Successfully claimed request'});
+  });
+});
+
 requestsRouter.delete('/requests/:id', (req, res) => {
   Request.remove({_id: req.params.id}, (err) => {
     if (err) return handleDBError(err, res);
