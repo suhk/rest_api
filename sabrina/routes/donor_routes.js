@@ -25,13 +25,13 @@ donorRouter.put('/donors/:id', jsonParser, (req, res) => {
   delete donorData._id;
   Donor.update({_id: req.params.id}, donorData, (err, data) => {
     if(err) return handleDBError(err, res);
-    res.status(200).json({msg: 'success'});
+    res.status(200).json({msg: 'Successly updated donor'});
   });
 });
 
 donorRouter.delete('/donors/:id', (req, res) => {
   Donor.remove({_id: req.params.id}, (err) => {
     if (err) return handleDBError(err, res);
-    res.status(200).json({msg: 'success'});
+    res.status(200).json({msg: 'Successly deleted donor'});
   });
 });

@@ -5,8 +5,9 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/hogc_dev');
 
 const donorsRouter = require(__dirname + '/routes/donor_routes');
+const requestsRouter = require(__dirname + '/routes/request_routes');
 
-app.use('/api', donorsRouter);
+app.use(donorsRouter, requestsRouter);
 
 var PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log('server up on port: ' + PORT));
+app.listen(PORT, () => console.log('Server started on port: ' + PORT));
