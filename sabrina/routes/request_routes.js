@@ -8,14 +8,14 @@ var requestsRouter = module.exports = exports = express.Router();
 
 requestsRouter.get('/requestsAll', (req, res) => {
   Request.find({}, (err, data) => {
-    if(err) return handleDBError(err, res);
+    if (err) return handleDBError(err, res);
     res.status(200).json(data);
   });
 });
 
 requestsRouter.get('/requestsUnclaimed', (req, res) => {
-  Request.find({claimedBy: {$in:['null']}}, (err, data) => {
-    if(err) return handleDBError(err, res);
+  Request.find({claimedBy: {$in: ['null']}}, (err, data) => {
+    if (err) return handleDBError(err, res);
     res.status(200).json(data);
   });
 });
@@ -23,7 +23,7 @@ requestsRouter.get('/requestsUnclaimed', (req, res) => {
 requestsRouter.post('/requests', jsonParser, (req, res) => {
   var newRequest = new Request(req.body);
   newRequest.save((err, data) => {
-    if(err) return handleUnavailError(err, res);
+    if (err) return handleUnavailError(err, res);
     res.status(200).json(data);
   });
 });
@@ -32,7 +32,7 @@ requestsRouter.put('/requests/:id', jsonParser, (req, res) => {
   var requestData = req.body;
   delete requestData._id;
   Request.update({_id: req.params.id}, requestData, (err, data) => {
-    if(err) return handleDBError(err, res);
+    if (err) return handleDBError(err, res);
     res.status(200).json({msg: 'Successfully updated request'});
   });
 });
