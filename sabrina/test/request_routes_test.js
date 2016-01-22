@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/requests_test';
 
 const server = require(__dirname + '/../server');
-const Requests = require(__dirname + '/../models/request')
+const Requests = require(__dirname + '/../models/request');
 var origin = 'localhost:3000';
 
 describe('the requests api', () => {
@@ -25,7 +25,7 @@ describe('the requests api', () => {
       expect(Array.isArray(res.body)).to.eql(true);
       done();
     });
-  })
+  });
 
   it('should create a request with a POST', (done) => {
     request(origin)
@@ -43,6 +43,7 @@ describe('the requests api', () => {
   describe('rest requests that require a request already in db', () => {
     beforeEach((done) => {
       Requests.create({firstName: 'test request'}, (err, data) => {
+        if (err) throw err;
         this.testRequest = data;
         done();
       });

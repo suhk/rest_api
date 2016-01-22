@@ -17,7 +17,8 @@ gulp.task('eslint', () => {
         'arrow-parens': 0,
         'no-unused-vars': 0,
         'curly': 0,
-        'new-cap': 0
+        'new-cap': 0,
+        'max-len': 0
       },
       'env': {
         'es6': true,

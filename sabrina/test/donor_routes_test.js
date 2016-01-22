@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/donors_test';
 
 const server = require(__dirname + '/../server');
-const Donor = require(__dirname + '/../models/donor')
+const Donor = require(__dirname + '/../models/donor');
 var origin = 'localhost:3000';
 
 describe('the donors api', () => {
@@ -25,7 +25,7 @@ describe('the donors api', () => {
       expect(Array.isArray(res.body)).to.eql(true);
       done();
     });
-  })
+  });
 
   it('should create a donor with a POST', (done) => {
     request(origin)
@@ -43,6 +43,7 @@ describe('the donors api', () => {
   describe('rest requests that require a donor already in db', () => {
     beforeEach((done) => {
       Donor.create({firstName: 'test donor'}, (err, data) => {
+        if (err) throw err;
         this.testDonor = data;
         done();
       });
