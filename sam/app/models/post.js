@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var postSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
 	title: String,
 	date: {type: string, default: new Date()},
 	body: String,
