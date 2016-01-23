@@ -27,6 +27,16 @@ describe('the requests api', () => {
     });
   });
 
+  it('should be able to GET all our unclaimed requests', (done) => {
+    request(origin)
+    .get('/requestsUnclaimed')
+    .end((err, res) => {
+      expect(err).to.eql(null);
+      expect(Array.isArray(res.body)).to.eql(true);
+      done();
+    });
+  });
+
   it('should create a request with a POST', (done) => {
     request(origin)
       .post('/requests')
@@ -56,6 +66,18 @@ describe('the requests api', () => {
         .end((err, res) => {
           expect(err).to.eql(null);
           expect(res.body.msg).to.eql('Successfully updated request');
+          expect(res).to.have.status(200);
+          done();
+        });
+    });
+
+    it('should be able to CLAIM a request', (done) => {
+      this.testRequest.claimedBy = 'newDonorId';
+      request(origin)
+        .put('/requests/' + this.testRequest._id + '/' + this.testRequest.claimedBy)
+        .end((err, res) => {
+          expect(err).to.eql(null);
+          expect(res.body.msg).to.eql('Successfully claimed request');
           expect(res).to.have.status(200);
           done();
         });
