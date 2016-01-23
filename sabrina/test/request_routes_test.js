@@ -11,8 +11,14 @@ const Requests = require(__dirname + '/../models/request');
 var origin = 'localhost:3000';
 
 describe('the requests api', () => {
+  before((done) => {
+    server.listen(3000);
+    done();
+  });
+
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
+      server.close();
       done();
     });
   });

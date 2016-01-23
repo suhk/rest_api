@@ -11,8 +11,14 @@ const Donor = require(__dirname + '/../models/donor');
 var origin = 'localhost:3000';
 
 describe('the donors api', () => {
+  before((done) => {
+    server.listen(3000);
+    done();
+  });
+
   after((done) => {
     mongoose.connection.db.dropDatabase(() => {
+      server.close();
       done();
     });
   });
