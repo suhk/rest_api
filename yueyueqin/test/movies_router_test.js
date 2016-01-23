@@ -76,7 +76,7 @@ describe('the movie app', () => {
 
     it('should be able to delete a movie', (done) => {
       chai.request(origin)
-        .delete(uri + '/' + this.testMovie._id)
+        .del(uri + '/' + this.testMovie._id)
         .end((err,res) => {
           expect(err).to.equal(null);
           expect(res).to.have.status(200);

@@ -10,8 +10,6 @@ movieRouter.post('/movies',jsonParser, (req,res) => {
   var newMovie = new Movie(req.body);
   newMovie.save((err,data) => {
     if(err) handleError(err,res);
-
-
     res.status(200).json(data);
   });
 });
@@ -25,8 +23,7 @@ movieRouter.get('/movies',(req,res) => {
 });
 
 
-movieRouter.get('/movies/:type',(req,res) => {
-  console.log(req.params.type);
+movieRouter.get('/movies/:type', (req,res) => {
   Movie.find({type:req.params.type}, (err, data) => {
     if (err)  return handleError(err,res);
 
@@ -37,9 +34,9 @@ movieRouter.get('/movies/:type',(req,res) => {
 movieRouter.put('/movies/:id', jsonParser, (req,res) => {
   var movieData = req.body;
   delete movieData._id;
-  Movie.update({_id:req.params.id}, movieData, (err) => {
+  Movie.update({_id:req.params.id}, movieData, {runValidators:true},(err) => {
     if(err)  return handleError(err, res);
-    
+
     res.status(200).json('success');
   });
 });

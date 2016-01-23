@@ -7,4 +7,9 @@ var movieSchema = new mongoose.Schema({
   publish: Date
 });
 
-module.exports = exports = mongoose.model('Movie',movieSchema);
+
+var Movie = module.exports = exports = mongoose.model('Movie',movieSchema);
+
+Movie.schema.path('name').validate(function (value) {
+  return value.length > 0;
+}, 'Have to Input the name for the Movie');
