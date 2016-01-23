@@ -16,11 +16,9 @@ kittenRouter.get('/kittens', (req, res) => {
 });
 
 kittenRouter.post('/kittens', bodyParser.json(), (req, res) => {
-  console.log('got to route');
   const newKitten = new Kitten(req.body);
   newKitten.save((err, data) => {
     if (err) return handleDBError(err);
-    console.log('route didn\'t die');
     res.status(200).json(data);
   });
 });

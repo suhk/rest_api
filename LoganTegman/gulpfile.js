@@ -21,4 +21,4 @@ gulp.task('watch', () => {
   gulp.watch(scripts, ['lint', 'test']);
 });
 
-gulp.task('default', ['watch', 'lint', 'test', 'start']);
+gulp.task('default', ['watch', 'lint', 'test']);
