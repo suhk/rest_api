@@ -4,8 +4,8 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/politicians_app_test';
-// const server = require(__dirname + '/../server.js');
-// const Politician = require(__dirname + '/models/politicianModel.js');
+const server = require(__dirname + '/../server.js');
+const Politician = require(__dirname + '/../models/democraticModel.js');
 
 describe('the politicians api', () => {
   after((done) => {
@@ -21,7 +21,7 @@ describe('the politicians api', () => {
       .end(function(err, res) {
         expect(err).to.eql(null);
         expect(res).to.have.status(200);
-        expect(res.body.name).to.eql('Joe Low');
+        expect(res.body.fullName).to.eql('Joe Low');
         expect(res.body).to.have.property('_id');
         done();
       });   //end chai.request for POST
@@ -37,15 +37,15 @@ describe('the politicians api', () => {
       });   //end chai.request for GET
   });       //end it should GET
 
-  it('should be able to GET all politicians from db by _id', (done) => {
-    chai.request('localhost:3000')
-      .get('/api/demPoliticians/:id')
-      .end(function(err, res) {
-        expect(err).to.eql(null);
-        expect(res.body).to.eql(true);
-        done();
-      });   //end chai.request for GET
-  });       //end it should GET by _id
+  // it('should be able to GET all politicians from db by _id', (done) => {
+  //   chai.request('localhost:3000')
+  //     .get('/api/demPoliticians/:id')
+  //     .end(function(err, res) {
+  //       expect(err).to.eql(null);
+  //       expect(res.body).to.eql(true);
+  //       done();
+  //     });   //end chai.request for GET
+  // });       //end it should GET by _id
 
   describe('rest requests that require a politician already be in the db', () => {
     beforeEach((done) => {
@@ -69,7 +69,7 @@ describe('the politicians api', () => {
 
   it('should be able to DELETE a politician', (done) => {
     chai.request('localhost:3000')
-      .delete('/api/demPoliticians/:id' + this.testPolitician._id)
+      .delete('/api/demPoliticians/' + this.testPolitician._id)
       .send({fullName: 'new politician name'})
       .end((err, res) => {
         expect(err).to.eql(null);
