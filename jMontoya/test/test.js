@@ -4,6 +4,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 const mongoose = require('mongoose');
 process.env.MONGOLAB_URI = 'mongodb://localhost/politicians_app_test';
+/* eslint-disable no-unused-vars */
 const server = require(__dirname + '/../server.js');
 const Politician = require(__dirname + '/../models/democraticModel.js');
 
@@ -13,6 +14,16 @@ describe('the politicians api', () => {
       done();
     });
   });
+
+  it('should be able to GET all politicians from db', (done) => {
+    chai.request('localhost:3000')
+      .get('/api/demPoliticians')
+      .end(function(err, res) {
+        expect(err).to.eql(null);
+        expect(Array.isArray(res.body)).to.eql(true);
+        done();
+      });   //end chai.request for GET
+  });       //end it should GET
 
   it('should create a politician with POST', (done) => {
     chai.request('localhost:3000')
@@ -26,26 +37,6 @@ describe('the politicians api', () => {
         done();
       });   //end chai.request for POST
   });       //end it should POST
-
-  it('should be able to GET all politicians from db', (done) => {
-    chai.request('localhost:3000')
-      .get('/api/demPoliticians')
-      .end(function(err, res) {
-        expect(err).to.eql(null);
-        expect(Array.isArray(res.body)).to.eql(true);
-        done();
-      });   //end chai.request for GET
-  });       //end it should GET
-
-  // it('should be able to GET all politicians from db by _id', (done) => {
-  //   chai.request('localhost:3000')
-  //     .get('/api/demPoliticians/:id')
-  //     .end(function(err, res) {
-  //       expect(err).to.eql(null);
-  //       expect(res.body).to.eql(true);
-  //       done();
-  //     });   //end chai.request for GET
-  // });       //end it should GET by _id
 
   describe('rest requests that require a politician already be in the db', () => {
     beforeEach((done) => {

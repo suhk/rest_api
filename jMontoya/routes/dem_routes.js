@@ -22,6 +22,14 @@ politicianRouter.get('/demPoliticians', (req, res) => {
   console.log('GETted!');
 });
 
+politicianRouter.get('/demPoliticians/:id', (req, res) => {
+  Politician.find({_id: req.params.id}, (err, data) => {
+    if (err) return handleDBError(err, res);
+    res.status(200).json(data);
+  });
+  console.log('GETted by ID!');
+});
+
 politicianRouter.put('/demPoliticians/:id', parser, (req, res) => {
   var republicanData = req.body;
   delete republicanData._id;

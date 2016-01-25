@@ -22,6 +22,14 @@ politicianRouter.get('/repPoliticians', (req, res) => {
   console.log('GETted!');
 });
 
+politicianRouter.get('/repPoliticians/:id', (req, res) => {
+  Politician.find({_id: req.params.id}, (err, data) => {
+    if (err) return handleDBError(err, res);
+    res.status(200).json(data);
+  });
+  console.log('GETted by ID!');
+});
+
 politicianRouter.put('/repPoliticians/:id', parser, (req, res) => {
   var republicanData = req.body;
   delete republicanData._id;
@@ -39,7 +47,6 @@ politicianRouter.delete('/repPoliticians/:id', (req, res) => {
   });
   console.log('DELETEd!');
 });
-
 politicianRouter.get('/repPoliticians/info', function(req, res) {
   res.send('The Republican Party, commonly referred to as the GOP (abbreviation for Grand Old Party), is one of the two major contemporary political parties in the United States, the other being its historic rival, the Democratic Party.');
 });
