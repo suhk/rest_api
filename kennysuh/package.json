@@ -1,30 +1,20 @@
 {
-  "name": "rest_api",
+  "name": "angular with 2 resource app",
   "version": "1.0.0",
-  "description": "* fork this repository\r   * write all of your code in a folder containing your name\r   * push to your repository\r   * submit a pull request to this repository\r   * submit a link to your PR in canvas",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/suhk/rest_api.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/suhk/rest_api/issues"
-  },
-  "homepage": "https://github.com/suhk/rest_api#readme",
   "devDependencies": {
-    "chai": "^3.4.1",
-    "chai-http": "^1.0.0",
-    "mocha": "^2.3.4"
+    "angular": "^1.5.0",
+    "gulp": "^3.9.1",
+    "webpack-stream": "^3.1.0"
   },
   "dependencies": {
-    "body-parser": "^1.14.2",
-    "express": "^4.13.4",
-    "mongoose": "^4.3.7"
+    "express": "^4.13.4"
   }
 }
