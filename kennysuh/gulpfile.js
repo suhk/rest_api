@@ -16,5 +16,15 @@ gulp.task('webpack:dev', () => {
     .pipe(gulp.dest('build/'));
 });
 
+gulp.task('webpack:test', () => {
+  gulp.src(__dirname + '/test/test_entry.js')
+    .pipe(webpack({
+      output: {
+        filename: 'test_bundle.js'
+      }
+    }))
+    .pipe(gulp.dest('test/'));
+});
+
 gulp.task('build:dev', ['webpack:dev', 'html:dev']);
 gulp.task('default', ['build:dev']);

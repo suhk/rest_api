@@ -40,7 +40,7 @@ describe('person controller', () => {
       expect($scope.people[0].name).toBe('test person');
     });
 
-    it('should make a post request to /api/bears', () => {
+    it('should make a post request to /api/person', () => {
       $httpBackend.expectPOST('http://localhost:3000/api/person', {name: 'sent person'}).respond(200, {name: 'response person'});
       $scope.newPerson = {name: 'new person'};
       $scope.createPerson({name: 'sent person'});
@@ -49,6 +49,37 @@ describe('person controller', () => {
       expect($scope.newPerson).toBe(null);
       expect($scope.people[0].name).toBe('response person');
     });
+
+    describe('something', () => {
+      beforeEach(() => {
+        $httpBackend.expectPOST('http://localhost:3000/api/person', {name: 'new person', _id: 'abc123'}).respond(200, {name: 'new person', _id: 'abc123'});
+        $scope.createPerson({name: 'new person', _id: 'abc123'});
+      });
+
+      it('should make a put request to /api/person', () => {
+        $httpBackend.expectPUT('http://localhost:3000/api/person/abc123').respond(200, {name: 'test person', _id: 'abc123'});
+        $scope.updatePerson({name: 'test person', _id: 'abc123'});
+        $httpBackend.flush();
+        expect($scope.people.length).toBe(1);
+        expect($scope.people[0].name).toBe('test person');
+      });
+    });
+
+    describe('something 2', () => {
+      beforeEach(() => {
+        $httpBackend.expectPOST('http://localhost:3000/api/person', {name: 'new person', _id: 'abc123'}).respond(200, {name: 'new person', _id: 'abc123'});
+        $scope.createPerson({name: 'new person', _id: 'abc123'});
+      });
+
+      it('should make a delete request to /api/person', () => {
+        $httpBackend.expectDELETE('http://localhost:3000/api/person/abc123').respond(200, {name: 'new person', _id: 'abc123'});
+        $scope.deletePerson({name: 'new person', _id: 'abc123'});
+        $httpBackend.flush();
+        expect($scope.people.length).toBe(0);
+      });
+    });
+
+
   });
 
 });

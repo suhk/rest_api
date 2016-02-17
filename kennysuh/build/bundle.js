@@ -47,16 +47,18 @@
 	const angular = __webpack_require__(1);
 
 	const personApp = angular.module('personApp', []);
-	personApp.controller('personController', ['$scope', '$http', ($scope, $http) => {
+	personApp.controller('PersonController', ['$scope', '$http', function ($scope, $http) {
 	  $scope.people = [];
 	  $scope.editing = false;
 
-	  $http.get('http://localhost:3000/api/person')
-	    .then((res) => {
-	      $scope.people = res.data;
-	    }, (err) => {
-	      console.log(err);
-	    });
+	  $scope.getAll = function() {
+	    $http.get('http://localhost:3000/api/person')
+	      .then((res) => {
+	        $scope.people = res.data;
+	      }, (err) => {
+	        console.log(err);
+	      });
+	  };
 
 	  var resetCount = () => {
 	    $http.get('http://localhost:3000/api/person/count')
@@ -66,14 +68,14 @@
 	        console.log(err);
 	      });
 	  };
-	  resetCount();
+	  //resetCount();
 
 	  $scope.createPerson = (person) => {
 	    $http.post('http://localhost:3000/api/person', person)
 	      .then((res) => {
 	        $scope.people.push(res.data);
 	        $scope.newPerson = null;
-	        resetCount();
+	        //resetCount();
 	      }, (err) => {
 	        console.log(err);
 	      });
@@ -82,8 +84,8 @@
 	  $scope.deletePerson = (person) => {
 	    $http.delete('http://localhost:3000/api/person/' + person._id)
 	      .then((res) => {
-	        $scope.people = $scope.people.filter((i) => i != person);
-	        resetCount();
+	        $scope.people = $scope.people.filter((i) => i._id != person._id);
+	        //resetCount();
 	      }, (err) => {
 	        console.log(err);
 	      });

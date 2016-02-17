@@ -55,12 +55,12 @@
 	__webpack_require__(4);
 	__webpack_require__(5);
 
-	describe('bears controller', () => {
+	describe('person controller', () => {
 	  var $httpBackend;
 	  var $scope;
 	  var $ControllerConstructor;
 
-	  beforeEach(angular.mock.module('bearsApp'));
+	  beforeEach(angular.mock.module('personApp'));
 
 	  beforeEach(angular.mock.inject(function($rootScope, $controller) {
 	    $ControllerConstructor = $controller;
@@ -68,16 +68,16 @@
 	  }));
 
 	  it('should be able to make a controller', () => {
-	    var bearsController = $ControllerConstructor('BearsController', {$scope: $scope});
-	    expect(typeof bearsController).toBe('object');
-	    expect(Array.isArray($scope.bears)).toBe(true);
+	    var personController = $ControllerConstructor('PersonController', {$scope: $scope});
+	    expect(typeof personController).toBe('object');
+	    expect(Array.isArray($scope.people)).toBe(true);
 	    expect(typeof $scope.getAll).toBe('function');
 	  });
 
 	  describe('REST requests', () => {
 	    beforeEach(angular.mock.inject((_$httpBackend_) => {
 	      $httpBackend = _$httpBackend_;
-	      $ControllerConstructor('BearsController', {$scope});
+	      $ControllerConstructor('PersonController', {$scope});
 	    }));
 
 	    afterEach(() => {
@@ -85,23 +85,54 @@
 	      $httpBackend.verifyNoOutstandingRequest();
 	    });
 
-	    it('should make a get request to /api/bears', () => {
-	      $httpBackend.expectGET('http://localhost:3000/api/bears').respond(200, [{name: 'test bear'}]);
+	    it('should make a get request to /api/person', () => {
+	      $httpBackend.expectGET('http://localhost:3000/api/person').respond(200, [{name: 'test person'}]);
 	      $scope.getAll();
 	      $httpBackend.flush();
-	      expect($scope.bears.length).toBe(1);
-	      expect($scope.bears[0].name).toBe('test bear');
+	      expect($scope.people.length).toBe(1);
+	      expect($scope.people[0].name).toBe('test person');
 	    });
 
-	    it('should make a post request to /api/bears', () => {
-	      $httpBackend.expectPOST('http://localhost:3000/api/bears', {name: 'sent bear'}).respond(200, {name: 'response bear'});
-	      $scope.newBear = {name: 'new bear'};
-	      $scope.createBear({name: 'sent bear'});
+	    it('should make a post request to /api/person', () => {
+	      $httpBackend.expectPOST('http://localhost:3000/api/person', {name: 'sent person'}).respond(200, {name: 'response person'});
+	      $scope.newPerson = {name: 'new person'};
+	      $scope.createPerson({name: 'sent person'});
 	      $httpBackend.flush();
-	      expect($scope.bears.length).toBe(1);
-	      expect($scope.newBear).toBe(null);
-	      expect($scope.bears[0].name).toBe('response bear');
+	      expect($scope.people.length).toBe(1);
+	      expect($scope.newPerson).toBe(null);
+	      expect($scope.people[0].name).toBe('response person');
 	    });
+
+	    describe('something', () => {
+	      beforeEach(() => {
+	        $httpBackend.expectPOST('http://localhost:3000/api/person', {name: 'new person', _id: 'abc123'}).respond(200, {name: 'new person', _id: 'abc123'});
+	        $scope.createPerson({name: 'new person', _id: 'abc123'});
+	      });
+
+	      it('should make a put request to /api/person', () => {
+	        $httpBackend.expectPUT('http://localhost:3000/api/person/abc123').respond(200, {name: 'test person', _id: 'abc123'});
+	        $scope.updatePerson({name: 'test person', _id: 'abc123'});
+	        $httpBackend.flush();
+	        expect($scope.people.length).toBe(1);
+	        expect($scope.people[0].name).toBe('test person');
+	      });
+	    });
+
+	    describe('something 2', () => {
+	      beforeEach(() => {
+	        $httpBackend.expectPOST('http://localhost:3000/api/person', {name: 'new person', _id: 'abc123'}).respond(200, {name: 'new person', _id: 'abc123'});
+	        $scope.createPerson({name: 'new person', _id: 'abc123'});
+	      });
+
+	      it('should make a delete request to /api/person', () => {
+	        $httpBackend.expectDELETE('http://localhost:3000/api/person/abc123').respond(200, {name: 'new person', _id: 'abc123'});
+	        $scope.deletePerson({name: 'new person', _id: 'abc123'});
+	        $httpBackend.flush();
+	        expect($scope.people.length).toBe(0);
+	      });
+	    });
+
+
 	  });
 
 	});
@@ -33402,50 +33433,59 @@
 
 	const angular = __webpack_require__(2);
 
-	const bearsApp = angular.module('bearsApp', []);
-
-	bearsApp.controller('BearsController', ['$scope', '$http', function($scope, $http) {
-	  $scope.greeting = 'hello world';
-	  $scope.bears = [];
+	const personApp = angular.module('personApp', []);
+	personApp.controller('PersonController', ['$scope', '$http', function ($scope, $http) {
+	  $scope.people = [];
+	  $scope.editing = false;
 
 	  $scope.getAll = function() {
-	    $http.get('http://localhost:3000/api/bears')
+	    $http.get('http://localhost:3000/api/person')
 	      .then((res) => {
-	        console.log('success!');
-	        $scope.bears = res.data;
+	        $scope.people = res.data;
 	      }, (err) => {
 	        console.log(err);
 	      });
 	  };
 
-
-	  $scope.createBear = function(bear) {
-	    $http.post('http://localhost:3000/api/bears', bear)
+	  var resetCount = () => {
+	    $http.get('http://localhost:3000/api/person/count')
 	      .then((res) => {
-	        $scope.bears.push(res.data);
-	        $scope.newBear = null;
+	        $scope.peopleCount = res.data.count;
+	      }, (err) => {
+	        console.log(err);
+	      });
+	  };
+	  //resetCount();
+
+	  $scope.createPerson = (person) => {
+	    $http.post('http://localhost:3000/api/person', person)
+	      .then((res) => {
+	        $scope.people.push(res.data);
+	        $scope.newPerson = null;
+	        //resetCount();
 	      }, (err) => {
 	        console.log(err);
 	      });
 	  };
 
-	  $scope.deleteBear = function(bear) {
-	    $http.delete('http://localhost:3000/api/bears/' + bear._id)
+	  $scope.deletePerson = (person) => {
+	    $http.delete('http://localhost:3000/api/person/' + person._id)
 	      .then((res) => {
-	        $scope.bears = $scope.bears.filter((i) => i !== bear);
+	        $scope.people = $scope.people.filter((i) => i._id != person._id);
+	        //resetCount();
 	      }, (err) => {
 	        console.log(err);
 	      });
 	  };
 
-	  $scope.updateBear = function(bear) {
-	    $http.put('http://localhost:3000/api/bears/' + bear._id, bear)
+	  $scope.updatePerson = (person) => {
+	    $http.put('http://localhost:3000/api/person/' + person._id, person)
 	      .then((res) => {
-	        $scope.bears[$scope.bears.indexOf(bear)] = bear;
-	        bear.editting = false;
+	        var index = $scope.people.map(function(e) {return e._id;}).indexOf(person._id);
+	        $scope.people[index] = person;
+	        person.editing = false;
 	      }, (err) => {
 	        console.log(err);
-	        bear.editting = false;
 	      });
 	  };
 	}]);

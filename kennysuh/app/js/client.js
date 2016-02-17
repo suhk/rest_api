@@ -22,14 +22,14 @@ personApp.controller('PersonController', ['$scope', '$http', function ($scope, $
         console.log(err);
       });
   };
-  resetCount();
+  //resetCount();
 
   $scope.createPerson = (person) => {
     $http.post('http://localhost:3000/api/person', person)
       .then((res) => {
         $scope.people.push(res.data);
         $scope.newPerson = null;
-        resetCount();
+        //resetCount();
       }, (err) => {
         console.log(err);
       });
@@ -38,8 +38,8 @@ personApp.controller('PersonController', ['$scope', '$http', function ($scope, $
   $scope.deletePerson = (person) => {
     $http.delete('http://localhost:3000/api/person/' + person._id)
       .then((res) => {
-        $scope.people = $scope.people.filter((i) => i != person);
-        resetCount();
+        $scope.people = $scope.people.filter((i) => i._id != person._id);
+        //resetCount();
       }, (err) => {
         console.log(err);
       });
@@ -48,7 +48,8 @@ personApp.controller('PersonController', ['$scope', '$http', function ($scope, $
   $scope.updatePerson = (person) => {
     $http.put('http://localhost:3000/api/person/' + person._id, person)
       .then((res) => {
-        $scope.people[$scope.people.indexOf(person)] = person;
+        var index = $scope.people.map(function(e) {return e._id;}).indexOf(person._id);
+        $scope.people[index] = person;
         person.editing = false;
       }, (err) => {
         console.log(err);
