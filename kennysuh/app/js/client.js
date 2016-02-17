@@ -1,16 +1,18 @@
 const angular = require('angular');
 
 const personApp = angular.module('personApp', []);
-personApp.controller('personController', ['$scope', '$http', ($scope, $http) => {
+personApp.controller('PersonController', ['$scope', '$http', function ($scope, $http) {
   $scope.people = [];
   $scope.editing = false;
 
-  $http.get('http://localhost:3000/api/person')
-    .then((res) => {
-      $scope.people = res.data;
-    }, (err) => {
-      console.log(err);
-    });
+  $scope.getAll = function() {
+    $http.get('http://localhost:3000/api/person')
+      .then((res) => {
+        $scope.people = res.data;
+      }, (err) => {
+        console.log(err);
+      });
+  };
 
   var resetCount = () => {
     $http.get('http://localhost:3000/api/person/count')
