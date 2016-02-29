@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>2 Resource Adventure</title>
+    <link rel="stylesheet" type="text/css" href="reset.css">
+    <link rel="stylesheet" type="text/css" href="base.css">
+    <link rel="stylesheet" type="text/css" href="layout.css">
+    <link rel="stylesheet" type="text/css" href="module.css">
   </head>
   <body data-ng-app="personApp">
     <main data-ng-controller="PersonController" data-ng-init="getAll()">
@@ -21,9 +25,6 @@
         <input data-ng-model="newPerson.name" type="text">
         <input type="submit">
       </form>
-      <p>
-        The number of people in the database: {{peopleCount}}
-      </p>
     </main>
     <script src='bundle.js'></script>
   </body>

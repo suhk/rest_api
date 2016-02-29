@@ -84,7 +84,7 @@
 	  $scope.deletePerson = (person) => {
 	    $http.delete('http://localhost:3000/api/person/' + person._id)
 	      .then((res) => {
-	        $scope.people = $scope.people.filter((i) => i._id != person._id);
+	        $scope.people.splice($scope.people.indexOf(person), 1);
 	        //resetCount();
 	      }, (err) => {
 	        console.log(err);
@@ -94,7 +94,8 @@
 	  $scope.updatePerson = (person) => {
 	    $http.put('http://localhost:3000/api/person/' + person._id, person)
 	      .then((res) => {
-	        $scope.people[$scope.people.indexOf(person)] = person;
+	        var index = $scope.people.map(function(e) {return e._id;}).indexOf(person._id);
+	        $scope.people[index] = person;
 	        person.editing = false;
 	      }, (err) => {
 	        console.log(err);
