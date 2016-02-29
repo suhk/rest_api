@@ -26,3 +26,15 @@ input {
   margin: 12px;
   padding: 12px;
 }
+
+header {
+  margin: 12px;
+  padding: 12px;
+  font-size: 48px;
+}
+
+footer {
+  margin: 12px;
+  padding: 12px;
+  font-size: 12px;
+}
