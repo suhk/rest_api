@@ -33471,7 +33471,7 @@
 	  $scope.deletePerson = (person) => {
 	    $http.delete('http://localhost:3000/api/person/' + person._id)
 	      .then((res) => {
-	        $scope.people = $scope.people.filter((i) => i._id != person._id);
+	        $scope.people.splice($scope.people.indexOf(person), 1);
 	        //resetCount();
 	      }, (err) => {
 	        console.log(err);
